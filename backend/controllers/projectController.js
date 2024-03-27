@@ -90,3 +90,32 @@ exports.rejectProject = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Existing controller functions...
+
+exports.filterProjects = async (req, res) => {
+  try {
+    const filterOptions = req.body;
+    const filters = {};
+
+    if (filterOptions.semester) {
+      filters.semester = { $in: filterOptions.semester };
+    }
+
+    if (filterOptions.domain) {
+      filters.domain = { $in: filterOptions.domain };
+    }
+
+    if (filterOptions.technology) {
+      filters.technology = { $in: filterOptions.technology };
+    }
+
+    const projects = await Project.find({
+      ...filters,
+      status: 'approved',
+    });
+    res.json(projects);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

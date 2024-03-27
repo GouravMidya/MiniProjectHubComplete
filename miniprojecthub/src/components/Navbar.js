@@ -10,7 +10,7 @@ const Navbar = () => {
           MiniProject Hub
         </Typography>
         <Box>
-          <Button component={Link} to="/form" color="inherit">
+          <Button component={Link} to="/form" sx = {{ color: 'white'}}  variant="outlined">
             Submit Project
           </Button>
         </Box>

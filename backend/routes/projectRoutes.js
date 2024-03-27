@@ -24,4 +24,7 @@ router.put('/:id/approve', projectController.approveProject);
 // Reject a project submission
 router.put('/:id/reject', projectController.rejectProject);
 
+// Filter projects
+router.post('/filter', projectController.filterProjects);
+
 module.exports = router;

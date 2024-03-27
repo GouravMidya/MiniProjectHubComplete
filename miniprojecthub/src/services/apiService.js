@@ -27,6 +27,11 @@ const apiService = {
     const response = await axios.put(`${API_BASE_URL}/${projectId}/reject`);
     return response.data;
   },
+
+  filterProjects: async (filterOptions) => {
+    const response = await axios.post(`${API_BASE_URL}/filter`, filterOptions);
+    return response.data;
+  },
 };
 
 export default apiService;
