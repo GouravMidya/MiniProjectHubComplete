@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Autocomplete } from '@mui/material';
 import apiService from '../services/apiService';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const ProjectForm = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ const ProjectForm = () => {
     technology: [],
     githubLink: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add isSubmitting state
 
   const domains = ['Web Development','Mobile Development','Data Science','AI/ML','Cybersecurity','DevOps','Game Development','Cloud Computing','IoT','Big Data','Blockchain','AR/VR Development','Desktop Applications','Embedded Systems','Quantum Computing','Bioinformatics','Health Tech','FinTech','Educational Technology','E-commerce','Social Media','Content Management Systems (CMS)','Search Engine Optimization (SEO)','Digital Marketing','Gaming','Animation','Virtual Assistants','Robotics','Natural Language Processing (NLP)','Computer Vision','Human-Computer Interaction (HCI)','Ethical Hacking','Network Security','Information Assurance','Cryptography','Digital Forensics','Security Operations','Privacy Engineering','Penetration Testing','Malware Analysis','Reverse Engineering','Security Compliance','Threat Intelligence','Other'
   ];
@@ -35,13 +38,18 @@ const ProjectForm = () => {
     setFormData({ ...formData, semester: value });
   };
 
+  // const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Set isSubmitting to true before submitting
 
     // Check if any required field is empty
     const { name, semester, domain, technology, githubLink } = formData;
     if (!name || !semester || domain.length === 0 || technology.length === 0) {
       alert('Please fill in all required fields.');
+      setIsSubmitting(false); // Set isSubmitting to false if form is not valid
       return;
     }
 
@@ -50,10 +58,15 @@ const ProjectForm = () => {
       githubLink.startsWith('https://github.com/') || githubLink.startsWith('http://github.com/');
     if (!isValidLink && githubLink.trim() !== '') {
       alert('Please enter a valid GitHub repository link.');
+      setIsSubmitting(false); // Set isSubmitting to false if form is not valid
       return;
     }
 
     try {
+       // Introduce a delay of 2000 milliseconds (2 seconds)
+      // await delay(2000);
+
+
       await apiService.createProject(formData);
       // Reset form after successful submission
       setFormData({
@@ -67,6 +80,8 @@ const ProjectForm = () => {
     } catch (error) {
       console.error(error);
       alert('Error submitting project. Please try again.');
+    } finally {
+      setIsSubmitting(false); // Set isSubmitting to false after submission is complete
     }
   };
 
@@ -83,6 +98,7 @@ const ProjectForm = () => {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          disabled={isSubmitting} // Disable the input fields while submitting
         />
         <Autocomplete
           options={semesters}
@@ -91,6 +107,7 @@ const ProjectForm = () => {
           renderInput={(params) => (
             <TextField {...params} label="Semester" margin="normal" fullWidth />
           )}
+          disabled={isSubmitting} // Disable the input fields while submitting
         />
         <Autocomplete
           multiple
@@ -100,6 +117,7 @@ const ProjectForm = () => {
           renderInput={(params) => (
             <TextField {...params} label="Domain" margin="normal" fullWidth />
           )}
+          disabled={isSubmitting} // Disable the input fields while submitting
         />
         <Autocomplete
           multiple
@@ -109,6 +127,7 @@ const ProjectForm = () => {
           renderInput={(params) => (
             <TextField {...params} label="Technology" margin="normal" fullWidth />
           )}
+          disabled={isSubmitting} // Disable the input fields while submitting
         />
         <TextField
           name="githubLink"
@@ -117,10 +136,29 @@ const ProjectForm = () => {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          disabled={isSubmitting} // Disable the input fields while submitting
         />
-        <Button type="submit" variant="contained" sx={{ color: 'white', mt: 2 }} fullWidth size="large">
+        {/* <Button type="submit" variant="contained" sx={{ color: 'white', mt: 2 }} fullWidth size="large">
           Submit
-        </Button>
+        </Button> */}
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          {isSubmitting ? (
+            <LoadingButton loading variant="outlined" fullWidth>
+              Submit
+            </LoadingButton>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ color: 'white' }}
+              fullWidth
+              size="large"
+            >
+              Submit
+            </Button>
+          )}
+        </Box>
       </form>
     </Box>
   );
