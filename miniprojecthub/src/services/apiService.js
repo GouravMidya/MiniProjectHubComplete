@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:4000/api/projects';
+const API_BASE_URL = 'https://miniprojecthubcomplete.onrender.com/api/projects';
 
 const apiService = {
   getApprovedProjects: async () => {
