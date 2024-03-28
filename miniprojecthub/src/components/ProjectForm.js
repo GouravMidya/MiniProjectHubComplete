@@ -11,10 +11,56 @@ const ProjectForm = () => {
     githubLink: '',
   });
 
-  const domains = ['Web Development', 'Mobile Development', 'Data Science', 'AI/ML', 'Cybersecurity', 'DevOps', 'Game Development', 'Cloud Computing', 'IoT', 'Big Data', 'Blockchain', 'AR/VR Development', 'Desktop Applications', 'Embedded Systems', 'Quantum Computing', 'Bioinformatics', 'Health Tech', 'FinTech', 'Educational Technology', 'E-commerce', 'Social Media', 'Content Management Systems (CMS)', 'Search Engine Optimization (SEO)', 'Digital Marketing', 'Gaming', 'Animation', 'Virtual Assistants', 'Robotics', 'Natural Language Processing (NLP)', 'Computer Vision', 'Human-Computer Interaction (HCI)', 'Ethical Hacking', 'Network Security', 'Information Assurance', 'Cryptography', 'Digital Forensics', 'Security Operations', 'Privacy Engineering', 'Penetration Testing', 'Malware Analysis', 'Reverse Engineering', 'Security Compliance', 'Threat Intelligence'];
+  const domains = [
+    'Web Development',
+    'Mobile Development',
+    'Data Science',
+    'AI/ML',
+    'Cybersecurity',
+    'DevOps',
+    'Game Development',
+    'Cloud Computing',
+    'IoT',
+    'Big Data',
+    'Blockchain',
+    'AR/VR Development',
+    'Desktop Applications',
+    'Embedded Systems',
+    'Quantum Computing',
+    'Bioinformatics',
+    'Health Tech',
+    'FinTech',
+    'Educational Technology',
+    'E-commerce',
+    'Social Media',
+    'Content Management Systems (CMS)',
+    'Search Engine Optimization (SEO)',
+    'Digital Marketing',
+    'Gaming',
+    'Animation',
+    'Virtual Assistants',
+    'Robotics',
+    'Natural Language Processing (NLP)',
+    'Computer Vision',
+    'Human-Computer Interaction (HCI)',
+    'Ethical Hacking',
+    'Network Security',
+    'Information Assurance',
+    'Cryptography',
+    'Digital Forensics',
+    'Security Operations',
+    'Privacy Engineering',
+    'Penetration Testing',
+    'Malware Analysis',
+    'Reverse Engineering',
+    'Security Compliance',
+    'Threat Intelligence',
+  ];
 
-  const technologies = ['React', 'Angular', 'Vue.js', 'Node.js', 'Python', 'Java', 'C++', 'JavaScript', 'Swift', 'Kotlin', 'Django', 'Flask', 'Spring', 'TensorFlow', 'PyTorch', 'Keras', 'Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib', 'OpenCV', 'Unity', 'Unreal Engine', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'Google Cloud', 'Firebase', 'Raspberry Pi', 'Arduino', 'MongoDB', 'MySQL', 'PostgreSQL', 'SQLite', 'Redis', 'Elasticsearch', 'GraphQL', 'RESTful APIs', 'Blockchain', 'Solidity', 'Smart Contracts', 'Hadoop', 'Spark', 'Hive', 'Kafka', 'RabbitMQ', 'Ansible', 'Chef', 'Puppet', 'Git', 'CI/CD', 'Jenkins', 'Travis CI', 'CircleCI', 'SonarQube', 'JIRA', 'Trello', 'Slack', 'GitLab', 'Bitbucket', 'GitHub', 'Microsoft Teams', 'Discord', 'Zoom', 'Microsoft Azure DevOps'];
+  const technologies = ['React','Angular','Vue.js','Node.js','Python','Java','C++','JavaScript','Swift','Kotlin','Django','Flask','Spring','TensorFlow','PyTorch','Keras','Scikit-learn','Pandas','NumPy','Matplotlib','OpenCV','Unity','Unreal Engine','Docker','Kubernetes','AWS','Azure','Google Cloud','Firebase','Raspberry Pi','Arduino','MongoDB','MySQL','PostgreSQL','SQLite','Redis','Elasticsearch','GraphQL','RESTful APIs','Blockchain','Solidity','Smart Contracts','Hadoop','Spark','Hive','Kafka','RabbitMQ','Ansible','Chef','Puppet','Git','CI/CD','Jenkins','Travis CI','CircleCI','SonarQube','JIRA','Trello','Slack','GitLab','Bitbucket','GitHub','Microsoft Teams','Discord','Zoom','Microsoft Azure DevOps',
+  ];
 
+  const semesters = ['Sem 3', 'Sem 4', 'Sem 5', 'Sem 6','Sem 7&8','Leisure'];
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,23 +74,28 @@ const ProjectForm = () => {
     setFormData({ ...formData, technology: values });
   };
 
+  const handleSemesterChange = (event, value) => {
+    setFormData({ ...formData, semester: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Check if any required field is empty
     const { name, semester, domain, technology, githubLink } = formData;
     if (!name || !semester || domain.length === 0 || technology.length === 0) {
       alert('Please fill in all required fields.');
       return;
     }
-  
+
     // Validate GitHub link
-    const isValidLink = githubLink.startsWith('https://github.com/') || githubLink.startsWith('http://github.com/');
+    const isValidLink =
+      githubLink.startsWith('https://github.com/') || githubLink.startsWith('http://github.com/');
     if (!isValidLink && githubLink.trim() !== '') {
       alert('Please enter a valid GitHub repository link.');
       return;
     }
-  
+
     try {
       await apiService.createProject(formData);
       // Reset form after successful submission
@@ -63,7 +114,7 @@ const ProjectForm = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, margin: '2rem auto',padding: '2rem' }}>
+    <Box sx={{ maxWidth: 500, margin: '2rem auto', padding: '2rem' }}>
       <Typography variant="h4" align="center" gutterBottom>
         Submit Project
       </Typography>
@@ -76,13 +127,13 @@ const ProjectForm = () => {
           fullWidth
           margin="normal"
         />
-        <TextField
-          name="semester"
-          label="Semester"
+        <Autocomplete
+          options={semesters}
           value={formData.semester}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
+          onChange={handleSemesterChange}
+          renderInput={(params) => (
+            <TextField {...params} label="Semester" margin="normal" fullWidth />
+          )}
         />
         <Autocomplete
           multiple
@@ -110,7 +161,7 @@ const ProjectForm = () => {
           fullWidth
           margin="normal"
         />
-        <Button type="submit" variant="contained" sx = {{ color: 'white', mt: 2}} fullWidth size="large">
+        <Button type="submit" variant="contained" sx={{ color: 'white', mt: 2 }} fullWidth size="large">
           Submit
         </Button>
       </form>

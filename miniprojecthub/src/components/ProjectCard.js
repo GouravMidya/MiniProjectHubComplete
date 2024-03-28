@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Box } from '@mui/material';
 
 const ProjectCard = ({ project }) => {
   return (
-    <Card sx={{ height: 300, display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ height: 225, display: 'flex', flexDirection: 'column' }}>
       <CardContent sx={{ flexGrow: 1 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <Typography gutterBottom variant="h5" component="div">
