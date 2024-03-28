@@ -6,7 +6,7 @@ const appTheme = createTheme({
       main: '#008000',
     },
     secondary: {
-      main: '#9ef01a', // Orange shade
+      main: '#9ef01a', 
     },
   },
 });

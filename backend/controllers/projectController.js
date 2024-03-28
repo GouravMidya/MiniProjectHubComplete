@@ -94,11 +94,12 @@ exports.rejectProject = async (req, res) => {
 // Existing controller functions...
 
 exports.filterProjects = async (req, res) => {
+  // console.log("Filter called")
   try {
     const filterOptions = req.body;
     const filters = {};
 
-    if (filterOptions.semester) {
+    if (filterOptions.semester && filterOptions.semester.length > 0) {
       filters.semester = { $in: filterOptions.semester };
     }
 
@@ -110,10 +111,15 @@ exports.filterProjects = async (req, res) => {
       filters.technology = { $in: filterOptions.technology };
     }
 
+    // console.log("Generated MongoDB query:", filters); // Log the generated query
+
     const projects = await Project.find({
       ...filters,
       status: 'approved',
     });
+
+    // console.log(projects)
+    
     res.json(projects);
   } catch (err) {
     res.status(500).json({ message: err.message });

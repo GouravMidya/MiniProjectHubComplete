@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import ProjectCard from '../components/ProjectCard';
 import apiService from '../services/apiService';
 import SearchFilter from '../components/SearchFilter';
@@ -19,7 +19,6 @@ const HomePage = () => {
         console.error(error);
       }
     };
-
     fetchProjects();
   }, []);
 
@@ -35,19 +34,19 @@ const HomePage = () => {
     setFilteredProjects(filtered);
   };
 
- const handleFilter = async (options) => {
-  try {
-    const filterOptions = {
-      semester: options.semester,
-      domain: options.domain.length > 0 ? options.domain : undefined,
-      technology: options.technology.length > 0 ? options.technology : undefined,
-    };
-    const filtered = await apiService.filterProjects(filterOptions);
-    setFilteredProjects(filtered);
-  } catch (error) {
-    console.error(error);
-  }
-};
+  const handleFilter = async (options) => {
+    try {
+      const filterOptions = {
+        semester: options.semester,
+        domain: options.domain.length > 0 ? options.domain : undefined,
+        technology: options.technology.length > 0 ? options.technology : undefined,
+      };
+      const filtered = await apiService.filterProjects(filterOptions);
+      setFilteredProjects(filtered);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Box sx={{ padding: '2rem' }}>
@@ -55,11 +54,13 @@ const HomePage = () => {
         Approved Projects
       </Typography>
       <SearchFilter onSearch={handleSearch} onFilter={handleFilter} />
-      <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+      <Grid container spacing={3}>
         {filteredProjects.map((project) => (
-          <ProjectCard key={project._id} project={project} />
+          <Grid item xs={12} sm={6} md={4} lg={3} key={project._id}>
+            <ProjectCard project={project} />
+          </Grid>
         ))}
-      </Box>
+      </Grid>
     </Box>
   );
 };

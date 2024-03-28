@@ -30,6 +30,21 @@ const ProjectForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Check if any required field is empty
+    const { name, semester, domain, technology, githubLink } = formData;
+    if (!name || !semester || domain.length === 0 || technology.length === 0) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+  
+    // Validate GitHub link
+    const isValidLink = githubLink.startsWith('https://github.com/') || githubLink.startsWith('http://github.com/');
+    if (!isValidLink && githubLink.trim() !== '') {
+      alert('Please enter a valid GitHub repository link.');
+      return;
+    }
+  
     try {
       await apiService.createProject(formData);
       // Reset form after successful submission
@@ -48,7 +63,7 @@ const ProjectForm = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, margin: '2rem auto' }}>
+    <Box sx={{ maxWidth: 500, margin: '2rem auto',padding: '2rem' }}>
       <Typography variant="h4" align="center" gutterBottom>
         Submit Project
       </Typography>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Autocomplete, Button } from '@mui/material';
+import { Box, TextField, Autocomplete, Button, Grid } from '@mui/material';
 
 const SearchFilter = ({ onSearch, onFilter }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,48 +32,71 @@ const SearchFilter = ({ onSearch, onFilter }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '1rem', padding: '1rem',gap: '1rem' }}>
-      <TextField
-        label="Search"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        margin="normal"
-      />
-      <Button variant="contained" color="primary" onClick={handleSearch}>
-        Search
-      </Button>
-
-      <Autocomplete
-        multiple
-        options={semesters}
-        value={filterOptions.semester}
-        onChange={(event, values) => handleFilterChange('semester', values)}
-        renderInput={(params) => (
-          <TextField {...params} label="Semester" margin="normal" />
-        )}
-      />
-      <Autocomplete
-        multiple
-        options={domains}
-        value={filterOptions.domain}
-        onChange={(event, values) => handleFilterChange('domain', values)}
-        renderInput={(params) => (
-          <TextField {...params} label="Domain" margin="normal" />
-        )}
-      />
-      <Autocomplete
-        multiple
-        options={technologies}
-        value={filterOptions.technology}
-        onChange={(event, values) => handleFilterChange('technology', values)}
-        renderInput={(params) => (
-          <TextField {...params} label="Technology" margin="normal" />
-        )}
-      />
-      
-      <Button variant="contained" color="secondary" onClick={handleFilter}>
-        Filter
-      </Button>
+    <Box sx={{ padding: '1rem' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            label="Search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            fullWidth
+            margin="normal"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSearch}
+            fullWidth
+            size="large"
+          >
+            Search
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Autocomplete
+            multiple
+            options={semesters}
+            value={filterOptions.semester}
+            onChange={(event, values) => handleFilterChange('semester', values)}
+            renderInput={(params) => (
+              <TextField {...params} label="Semester" margin="normal" fullWidth />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Autocomplete
+            multiple
+            options={domains}
+            value={filterOptions.domain}
+            onChange={(event, values) => handleFilterChange('domain', values)}
+            renderInput={(params) => (
+              <TextField {...params} label="Domain" margin="normal" fullWidth />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Autocomplete
+            multiple
+            options={technologies}
+            value={filterOptions.technology}
+            onChange={(event, values) => handleFilterChange('technology', values)}
+            renderInput={(params) => (
+              <TextField {...params} label="Technology" margin="normal" fullWidth />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleFilter}
+            fullWidth
+            size="large"
+          >
+            Filter
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

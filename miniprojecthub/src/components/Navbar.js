@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#2e7d32' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#2e7d32'}}>
       <Toolbar>
         <Typography variant="h6" component={Link} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'white' }}>
           MiniProject Hub

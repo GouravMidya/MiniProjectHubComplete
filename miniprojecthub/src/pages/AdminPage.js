@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Grid } from '@mui/material';
 import ProjectCard from '../components/ProjectCard';
 import apiService from '../services/apiService';
 
@@ -15,7 +15,6 @@ const AdminPage = () => {
         console.error(error);
       }
     };
-
     fetchPendingProjects();
   }, []);
 
@@ -42,21 +41,23 @@ const AdminPage = () => {
       <Typography variant="h4" gutterBottom>
         Pending Projects
       </Typography>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+      <Grid container spacing={2}>
         {pendingProjects.map((project) => (
-          <Box key={project._id} sx={{ margin: '1rem' }}>
-            <ProjectCard project={project} />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
-              <Button variant="contained" color="primary" onClick={() => handleApprove(project._id)}>
-                Approve
-              </Button>
-              <Button variant="contained" color="error" onClick={() => handleReject(project._id)}>
-                Reject
-              </Button>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={project._id}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+              <ProjectCard project={project} />
+              <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between' ,padding:"15px"}}>
+                <Button variant="contained" color="primary" onClick={() => handleApprove(project._id)}>
+                  Approve
+                </Button>
+                <Button variant="contained" color="error" onClick={() => handleReject(project._id)}>
+                  Reject
+                </Button>
+              </Box>
             </Box>
-          </Box>
+          </Grid>
         ))}
-      </Box>
+      </Grid>
     </Box>
   );
 };
