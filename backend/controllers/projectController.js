@@ -91,7 +91,7 @@ exports.rejectProject = async (req, res) => {
   }
 };
 
-// Existing controller functions...
+
 
 exports.filterProjects = async (req, res) => {
   // console.log("Filter called")

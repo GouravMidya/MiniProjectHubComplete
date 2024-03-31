@@ -19,7 +19,7 @@ const HomePage = () => {
     
     const fetchProjects = async () => {
       try {
-        // await delay(2000);
+        // await delay(20000);
         setIsLoading(true); // Set isLoading to true before fetching data
         const approvedProjects = await apiService.getApprovedProjects();
         setProjects(approvedProjects);
@@ -133,8 +133,9 @@ const HomePage = () => {
           <SearchFilter onSearch={handleSearch} onFilter={handleFilter} />
         </Collapse>
       {isLoading ? ( // Render CircularProgress if isLoading is true
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+        <Box sx={{ display: 'flex',flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
           <CircularProgress />
+          <Typography variant="body1" sx = {{marginTop:"10px", textAlign: 'center'}}>Please wait while we establish connection with backend</Typography>
         </Box>
       ) : (
         // Render the rest of the content
@@ -143,7 +144,7 @@ const HomePage = () => {
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
-          <Alert severity="info">The projects listed here are not real ones and just popular github repos to showcase until we collect enough data</Alert>
+          <Alert severity="info">Some projects listed here are not real ones and just popular github repos to showcase until we collect enough data</Alert>
           </Grid>
           {filteredProjects.map((project) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={project._id}>
